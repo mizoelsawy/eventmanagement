@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management Platform - Sales Document</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --accent: #e8da7a;
+            --accent-dark: #c9b84a;
+            --text: #2d2d2d;
+            --text-light: #6b7280;
+            --bg: #ffffff;
+            --bg-alt: #f8f9fa;
+            --border: #e5e7eb;
+            --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* ---- HERO SECTION ---- */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            padding: 80px 40px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 70%, rgba(232,218,122,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(232,218,122,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .hero .subtitle {
+            font-size: 18px;
+            color: var(--accent);
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .hero .tagline {
+            font-size: 17px;
+            color: rgba(255,255,255,0.8);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.8;
+            position: relative;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 16px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        /* ---- SCREENSHOT PLACEHOLDER ---- */
+        .screenshot {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 14px;
+            font-style: italic;
+            margin: 24px 0;
+            background: #fafafa;
+        }
+        .screenshot::before {
+            content: '📱';
+            display: block;
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-style: normal;
+        }
+
+        /* ---- SCREENSHOT GALLERY ---- */
+        .screenshot-gallery {
+            display: flex;
+            gap: 16px;
+            margin: 28px 0;
+            overflow-x: auto;
+            padding: 8px 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .screenshot-gallery img {
+            height: 480px;
+            width: auto;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            border: 1px solid var(--border);
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .screenshot-gallery.gallery-small img {
+            height: 400px;
+        }
+
+        /* ---- SECTIONS ---- */
+        section {
+            padding: 50px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        section:last-child { border-bottom: none; }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+        h2 .section-number {
+            color: var(--accent-dark);
+            margin-right: 4px;
+        }
+        .section-intro {
+            color: var(--text-light);
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 28px 0 12px;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin: 20px 0 8px;
+        }
+
+        p {
+            margin-bottom: 14px;
+            color: var(--text);
+        }
+
+        ul {
+            margin: 8px 0 16px 20px;
+        }
+        ul li {
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+        ul li strong {
+            color: var(--primary);
+        }
+
+        /* ---- STATS GRID ---- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin: 40px 0;
+        }
+        .stat-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px 16px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-2px); }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        /* ---- TABLE ---- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        thead th {
+            background: var(--primary);
+            color: #fff;
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        tbody td {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        tbody tr:nth-child(even) { background: var(--bg-alt); }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody td:first-child { font-weight: 600; color: var(--primary); }
+
+        /* ---- FEATURE CARDS ---- */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .feature-card {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .feature-card h4 {
+            margin: 0 0 8px;
+            font-size: 15px;
+        }
+        .feature-card p {
+            font-size: 13px;
+            color: var(--text-light);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ---- VALUE PROPS ---- */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 24px 0;
+        }
+        .value-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border-left: 4px solid var(--accent-dark);
+            border-radius: 0 10px 10px 0;
+            padding: 22px 24px;
+            box-shadow: var(--card-shadow);
+        }
+        .value-card h4 {
+            margin: 0 0 6px;
+            font-size: 15px;
+            color: var(--primary);
+        }
+        .value-card p {
+            font-size: 13px;
+            color: var(--text-light);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* ---- HIGHLIGHT BOX ---- */
+        .highlight-box {
+            background: linear-gradient(135deg, var(--primary) 0%, #16213e 100%);
+            color: #fff;
+            border-radius: 14px;
+            padding: 36px 40px;
+            margin: 30px 0;
+        }
+        .highlight-box h3 {
+            color: var(--accent);
+            margin-top: 0;
+            font-size: 22px;
+        }
+        .highlight-box ul li {
+            color: rgba(255,255,255,0.9);
+        }
+        .highlight-box strong {
+            color: #fff;
+        }
+
+        /* ---- INCLUDED LIST ---- */
+        .included-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin: 24px 0;
+        }
+        .included-block {
+            background: var(--bg-alt);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+        .included-block h4 {
+            margin: 0 0 12px;
+            color: var(--primary);
+            font-size: 16px;
+        }
+        .included-block ul {
+            margin: 0;
+            list-style: none;
+            padding: 0;
+        }
+        .included-block ul li {
+            padding: 4px 0 4px 20px;
+            position: relative;
+            font-size: 14px;
+        }
+        .included-block ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: 700;
+        }
+
+        /* ---- MODULES TABLE ---- */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .module-item {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+        .module-item strong {
+            display: block;
+            color: var(--primary);
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        .module-item span {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* ---- PERFECT FOR ---- */
+        .perfect-for {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .perfect-for .tag {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 10px 22px;
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        /* ---- CTA FOOTER ---- */
+        .cta-footer {
+            background: linear-gradient(135deg, var(--primary) 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            text-align: center;
+            padding: 60px 40px;
+        }
+        .cta-footer h2 {
+            color: #fff;
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+        .cta-footer p {
+            color: rgba(255,255,255,0.75);
+            font-size: 16px;
+            max-width: 520px;
+            margin: 0 auto 24px;
+        }
+        .cta-footer .cta-highlight {
+            color: var(--accent);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* ---- DIVIDER ---- */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 10px 0;
+        }
+
+        /* ---- NOTIFICATION TABLE ---- */
+        .notif-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .notif-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: var(--bg-alt);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .notif-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-dark);
+            flex-shrink: 0;
+        }
+
+        /* ---- UX LIST ---- */
+        .ux-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .ux-item {
+            display: flex;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-alt);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            align-items: flex-start;
+        }
+        .ux-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+            width: 28px;
+            text-align: center;
+        }
+        .ux-item strong {
+            display: block;
+            font-size: 14px;
+            color: var(--primary);
+            margin-bottom: 2px;
+        }
+        .ux-item span {
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        /* ---- PRINT ---- */
+        @media print {
+            body { font-size: 12px; }
+            .container { max-width: 100%; padding: 0 20px; }
+            .hero { padding: 40px 20px; }
+            .hero h1 { font-size: 30px; }
+            .stats-grid { grid-template-columns: repeat(5, 1fr); gap: 8px; }
+            .stat-card { padding: 12px 8px; box-shadow: none; border: 1px solid #ccc; }
+            .stat-value { font-size: 20px; }
+            section { padding: 24px 0; }
+            .feature-grid, .value-grid, .included-section, .modules-grid, .ux-grid, .notif-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .screenshot { padding: 20px; }
+            .screenshot-gallery img { height: 300px; }
+            .screenshot-gallery.gallery-small img { height: 250px; }
+            .highlight-box { padding: 20px; }
+            table { font-size: 12px; box-shadow: none; }
+        }
+
+        @media (max-width: 700px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .feature-grid, .value-grid, .included-section, .ux-grid, .notif-grid { grid-template-columns: 1fr; }
+            .modules-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero h1 { font-size: 28px; }
+            .container { padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<header class="hero">
+    <div class="container">
+        <div class="hero-badge">Production Ready</div>
+        <h1>Event Management Platform</h1>
+        <div class="subtitle">Complete Mobile Application for Event Companies</div>
+        <p class="tagline">A powerful, production-ready mobile application built for event management companies to streamline operations, manage teams, track attendance, handle finances, and communicate in real-time &mdash; all from one app.</p>
+    </div>
+</header>
+
+<main class="container">
+
+<!-- ==================== SCREENSHOT ==================== -->
+<div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7228.PNG?alt=media&token=f6191838-66d0-4a62-93e2-e67fceb6cec5" alt="App Splash Screen">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7229.PNG?alt=media&token=bef2115b-3772-499a-9b48-df13bfe742c1" alt="App Login Screen">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7230.PNG?alt=media&token=c4542e6d-530e-4926-8753-1d51bbc62b61" alt="App Home Screen">
+</div>
+
+<!-- ==================== EXECUTIVE SUMMARY ==================== -->
+<section>
+    <h2>Executive Summary</h2>
+    <p class="section-intro">Everything your event company needs, in one cross-platform mobile app.</p>
+
+    <p>This is a <strong>fully developed, cross-platform mobile application</strong> designed specifically for event management companies. It covers every aspect of event operations &mdash; from member recruitment and onboarding, through event planning and execution, to payment processing and performance analytics.</p>
+
+    <p>The app is <strong>production-ready</strong> and has been actively used in real-world event operations. It runs on both <strong>iOS and Android</strong> from a single codebase, with a cloud backend that handles authentication, real-time data, file storage, push notifications, and analytics.</p>
+
+    <div class="highlight-box">
+        <h3>What You're Getting</h3>
+        <ul>
+            <li>A complete mobile app that would take <strong>6&ndash;12 months</strong> and <strong>$30,000&ndash;$80,000+</strong> to build from scratch</li>
+            <li>Battle-tested in real event operations</li>
+            <li>Ready to deploy under your own brand</li>
+            <li>Fully customizable to match your workflow</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ==================== AT A GLANCE ==================== -->
+<section>
+    <h2>At a Glance</h2>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">50+</div>
+            <div class="stat-label">Screens</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">13+</div>
+            <div class="stat-label">Event Modules</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">16+</div>
+            <div class="stat-label">Notification Types</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">40+</div>
+            <div class="stat-label">Profile Fields</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">3</div>
+            <div class="stat-label">User Roles</div>
+        </div>
+    </div>
+    <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
+        <div class="stat-card">
+            <div class="stat-value" style="font-size:18px;">iOS + Android</div>
+            <div class="stat-label">Platforms</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" style="font-size:18px;">Dark & Light</div>
+            <div class="stat-label">Theme Mode</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" style="font-size:18px;">Direct + Group</div>
+            <div class="stat-label">Real-Time Chat</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" style="font-size:18px;">QR Code</div>
+            <div class="stat-label">Attendance</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" style="font-size:18px;">Excel + PPT</div>
+            <div class="stat-label">Data Export</div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CORE FEATURES ==================== -->
+<section>
+    <h2>Core Features</h2>
+    <p class="section-intro">A comprehensive suite of tools designed for every aspect of event operations.</p>
+
+    <!-- Feature 1: User Management -->
+    <h3><span class="section-number">01.</span> User Management &amp; Onboarding</h3>
+    <div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7229.PNG?alt=media&token=bef2115b-3772-499a-9b48-df13bfe742c1" alt="Signup Flow Step 1">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7230.PNG?alt=media&token=c4542e6d-530e-4926-8753-1d51bbc62b61" alt="Signup Flow Step 2">
+</div>
+    <p>A comprehensive member management system that handles the entire lifecycle from application to active membership.</p>
+
+    <h4>Multi-Step Registration</h4>
+    <ul>
+        <li>Detailed personal information collection (name, contact, address in English &amp; Arabic)</li>
+        <li>National ID verification with photo upload (front &amp; back)</li>
+        <li>Emergency contact information</li>
+        <li>Education and professional background</li>
+        <li>Multiple photo uploads (selfie, formal, casual) with automatic compression</li>
+        <li>Clothing sizes, language skills, and additional qualifications</li>
+    </ul>
+
+    <h4>Role-Based Access Control</h4>
+    <ul>
+        <li><strong>Members</strong> &mdash; View assigned events, participate, submit feedback, track earnings</li>
+        <li><strong>Account Managers</strong> &mdash; Create events, manage teams, oversee operations</li>
+        <li><strong>Admins</strong> &mdash; Full system control, analytics, user management, financial oversight</li>
+    </ul>
+
+    <h4>User Approval Workflow</h4>
+    <ul>
+        <li>New members submit applications with full documentation</li>
+        <li>Admin review and approval process</li>
+        <li>Status tracking: Pending &rarr; Approved &rarr; Active</li>
+        <li>Warning system for policy violations</li>
+        <li>Account suspension capability with reason tracking</li>
+    </ul>
+
+    <div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7235.PNG?alt=media&token=e5ec2a03-4047-4578-ac4e-cefd93cbc396" alt="User Profile Screen">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7236.PNG?alt=media&token=d977cc9a-f4df-4f93-a193-de90aaf1b284" alt="User Profile Details">
+</div>
+
+    <h4>Member Profiles</h4>
+    <ul>
+        <li>40+ data fields per member</li>
+        <li>Photo gallery (selfie, formal, casual, ID documents)</li>
+        <li>Event participation history</li>
+        <li>Earnings and payment tracking</li>
+        <li>Performance metrics and analytics</li>
+        <li>Warning and compliance records</li>
+        <li>Group/team assignments</li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <!-- Feature 2: Event Management -->
+    <h3><span class="section-number">02.</span> Event Management</h3>
+    <div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7239.PNG?alt=media&token=8da34448-86aa-4f4d-a087-1d22f776034d" alt="Events List View">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7240.PNG?alt=media&token=7d65e3c5-a7bd-49bc-b5d4-47c12d63f970" alt="Event Details">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7241.PNG?alt=media&token=b186e36c-c2e2-4fad-bd4c-58e7e5cc56db" alt="Event Modules">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7242.PNG?alt=media&token=dcc1eb58-b391-49e7-b600-c2f8fa5bbc5f" alt="Event Team">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7243.PNG?alt=media&token=65c11778-b948-4e8d-b560-298899042fb1" alt="Event Settings">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7244.PNG?alt=media&token=d9857f6a-1029-4b58-a2c3-75f4fcc55b39" alt="Event Status">
+</div>
+    <p>The heart of the platform &mdash; a complete event lifecycle management system with <strong>13+ configurable modules</strong> that can be toggled on or off per event.</p>
+
+    <h4>Event Creation &amp; Setup</h4>
+    <ul>
+        <li>Event name, date, time, and duration</li>
+        <li>Location and venue details</li>
+        <li>Client/company assignment</li>
+        <li>Dress code specifications</li>
+        <li>Transportation arrangements</li>
+        <li>Accommodation details</li>
+        <li>Working hours and salary information</li>
+        <li>Per diem and additional compensation</li>
+    </ul>
+
+    <div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7248.PNG?alt=media&token=c08973c6-c443-4ad0-82ed-b42b9e0059b7" alt="Event Creation Setup">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7249.PNG?alt=media&token=e142085b-90f5-430b-8bb9-108a08e8e7ae" alt="Event Details Form">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7250.PNG?alt=media&token=69cdf0a5-b717-42fe-a787-6d1cd3b2fdce" alt="Event Configuration">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7251.PNG?alt=media&token=040ae68b-2cc3-4bdb-a544-b934939d44b7" alt="Event Settings">
+</div>
+
+    <h4>Event Status Tracking</h4>
+    <ul>
+        <li>Upcoming &bull; Pending &bull; Assigned &bull; Backup &bull; Closed &bull; Completed &bull; Unpaid &bull; Cancelled</li>
+    </ul>
+
+    <h4>13+ Configurable Event Modules</h4>
+    <div class="modules-grid">
+        <div class="module-item"><strong>Information</strong><span>Event details &amp; specifications</span></div>
+        <div class="module-item"><strong>Members</strong><span>Team assignment &amp; management</span></div>
+        <div class="module-item"><strong>Attendance</strong><span>QR-based check-in/check-out</span></div>
+        <div class="module-item"><strong>Chat</strong><span>Event-specific group messaging</span></div>
+        <div class="module-item"><strong>Groups</strong><span>Sub-team organization</span></div>
+        <div class="module-item"><strong>Tasks</strong><span>Mission and task assignment</span></div>
+        <div class="module-item"><strong>Feedback</strong><span>Post-event surveys &amp; ratings</span></div>
+        <div class="module-item"><strong>Counter</strong><span>Event metrics &amp; tallying</span></div>
+        <div class="module-item"><strong>Guest List</strong><span>Guest registration with folders</span></div>
+        <div class="module-item"><strong>Seating Plan</strong><span>Table &amp; seating arrangements</span></div>
+        <div class="module-item"><strong>Asset Management</strong><span>Equipment &amp; supply tracking</span></div>
+        <div class="module-item"><strong>Data Management</strong><span>Custom records with tags</span></div>
+        <div class="module-item"><strong>Expenses</strong><span>Cost tracking &amp; budgeting</span></div>
+    </div>
+    <p>Each module can be <strong>enabled or disabled per event</strong>, giving you full flexibility to customize the workflow for different event types.</p>
+
+    <div class="divider"></div>
+
+    <!-- Feature 3: QR Attendance -->
+    <h3><span class="section-number">03.</span> QR-Based Attendance System</h3>
+    <div class="screenshot">Insert QR Code Generation Screenshot Here</div>
+    <p>A reliable, real-time attendance tracking system powered by QR codes.</p>
+    <ul>
+        <li><strong>QR Code Generation</strong> &mdash; Unique QR code generated for each event</li>
+        <li><strong>Real-Time Scanning</strong> &mdash; Scan member QR codes for instant check-in and check-out</li>
+        <li><strong>Manual Fallback</strong> &mdash; Manual attendance entry option when QR scanning isn't practical</li>
+        <li><strong>Attendance Records</strong> &mdash; Complete timestamped logs of all check-ins and check-outs</li>
+        <li><strong>Attendance Analytics</strong> &mdash; Visual reports on attendance patterns and punctuality</li>
+    </ul>
+    <div class="screenshot">Insert QR Scanner in Action Screenshot Here</div>
+
+    <div class="divider"></div>
+
+    <!-- Feature 4: Real-Time Communication -->
+    <h3><span class="section-number">04.</span> Real-Time Communication</h3>
+    <div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7253.PNG?alt=media&token=10ad04eb-f6fd-4da0-a857-de85f244510e" alt="Chat List Screen">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7254.PNG?alt=media&token=78932efa-a80d-4861-8eee-aa368fe9f660" alt="Chat Conversation">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7255.PNG?alt=media&token=9e5dc468-8589-4f1a-9288-3f2d3cf7f297" alt="Group Chat">
+</div>
+    <p>Built-in messaging system for seamless team communication.</p>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h4>Direct Messaging</h4>
+            <p>One-to-one private conversations with real-time delivery, media sharing (images, voice messages), read receipts, and unread counters with badge notifications.</p>
+        </div>
+        <div class="feature-card">
+            <h4>Event Group Chats</h4>
+            <p>Automatic group chat creation per event with all assigned team members. Event-specific discussions, coordination, and media sharing within groups.</p>
+        </div>
+        <div class="feature-card">
+            <h4>Chat Management</h4>
+            <p>Archive chats for completed events, search across conversations, create custom group chats, and track unread messages with tab bar badges.</p>
+        </div>
+        <div class="feature-card">
+            <h4>Media Support</h4>
+            <p>Share images, voice messages, and files directly in conversations. Full media viewer with zoom capabilities for shared content.</p>
+        </div>
+    </div>
+    <div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7253.PNG?alt=media&token=10ad04eb-f6fd-4da0-a857-de85f244510e" alt="Chat Conversation View">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7254.PNG?alt=media&token=78932efa-a80d-4861-8eee-aa368fe9f660" alt="Chat Media Sharing">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7255.PNG?alt=media&token=9e5dc468-8589-4f1a-9288-3f2d3cf7f297" alt="Group Chat View">
+</div>
+
+    <div class="divider"></div>
+
+    <!-- Feature 5: Financial Management -->
+    <h3><span class="section-number">05.</span> Financial Management</h3>
+    <div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7246.PNG?alt=media&token=137dccd6-1246-4b2e-8bf1-2c75f98ea2b1" alt="Salary Sheet">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7256.PNG?alt=media&token=2233bad5-bee9-4a1a-bb57-75829a065483" alt="Payment Tracking">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7257.PNG?alt=media&token=4de7e558-8e8f-49bb-9885-41a05b24b06a" alt="Expense Management">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7258.PNG?alt=media&token=a67dbe18-4dc3-4e6c-84c0-0826ec066f34" alt="Financial Analytics">
+</div>
+    <p>Complete financial tracking from salary calculation to payment status.</p>
+    <ul>
+        <li><strong>Salary Sheet Generation</strong> &mdash; Automatic salary sheets per event based on working hours</li>
+        <li><strong>Payment Status Tracking</strong> &mdash; Track paid, unpaid, and pending payments per member</li>
+        <li><strong>Expense Management</strong> &mdash; Log and categorize event expenses</li>
+        <li><strong>Financial Analytics</strong> &mdash; Revenue, costs, and profitability reports</li>
+        <li><strong>Per-Event Financials</strong> &mdash; Detailed financial breakdown for each event</li>
+        <li><strong>Excel Export</strong> &mdash; Export salary sheets and financial data to Excel for accounting</li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <!-- Feature 6: Task & Asset Management -->
+    <h3><span class="section-number">06.</span> Task &amp; Asset Management</h3>
+    <div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7275.PNG?alt=media&token=6a3c5274-92b1-439a-9302-5793e9f0b52d" alt="Tasks List View">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7276.PNG?alt=media&token=ce6ceaac-2b6f-4532-8a0f-05d64544dbe5" alt="Task Details">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7277.PNG?alt=media&token=ca43ccff-b3e5-4d17-858e-3a72239f4fe1" alt="Task Assignment">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7278.PNG?alt=media&token=9f00d2d2-9bc2-4697-99af-7e9535e29ee8" alt="Task Submissions">
+</div>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h4>Task Management</h4>
+            <p>Create and assign tasks to team members. Hierarchical task system with parent missions and sub-tasks. Track submissions, deadlines, and completion status per member.</p>
+        </div>
+        <div class="feature-card">
+            <h4>Asset Management</h4>
+            <p>Track equipment, supplies, and materials per event. Assign assets to individual members with allocation sheets. Monitor returns and maintain inventory records.</p>
+        </div>
+    </div>
+    <div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7260.PNG?alt=media&token=5f826b3d-176f-42d5-9550-f36a64e9bb44" alt="Asset Management View">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7261.PNG?alt=media&token=e63a7c19-ff62-4e48-b98a-49856d709c60" alt="Asset Assignment Sheet">
+</div>
+
+    <div class="divider"></div>
+
+    <!-- Feature 7: Analytics -->
+    <h3><span class="section-number">07.</span> Analytics &amp; Reporting Dashboard</h3>
+    <div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7233.PNG?alt=media&token=d546263e-6670-4dc9-afd7-b6f44b6d5076" alt="Analytics Dashboard">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7269.PNG?alt=media&token=99f33248-c2bd-49d4-a61b-a2c549458d47" alt="Analytics Overview">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7265.PNG?alt=media&token=d7a682ef-285e-4074-b0c2-d4204f64a7e7" alt="Member Analytics">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7266.PNG?alt=media&token=b1d72902-04cd-4142-ad28-2512b2a91891" alt="Event Analytics">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7267.PNG?alt=media&token=8da0f74b-ddc9-41ff-a0be-2d9b0f687d23" alt="Financial Reports">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7268.PNG?alt=media&token=8d9100f8-bef1-45fe-bfaf-815439c6ae49" alt="Visual Charts">
+</div>
+    <p>Comprehensive analytics to make data-driven decisions.</p>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h4>Member Analytics</h4>
+            <p>Individual performance metrics, event participation history, earnings over time, and reliability scores.</p>
+        </div>
+        <div class="feature-card">
+            <h4>Event Analytics</h4>
+            <p>Event completion rates, team utilization metrics, financial performance per event, and client satisfaction.</p>
+        </div>
+        <div class="feature-card">
+            <h4>Financial Reports</h4>
+            <p>Revenue and expense trends, payment status overview, salary distribution analytics, and profitability insights.</p>
+        </div>
+        <div class="feature-card">
+            <h4>Visual Dashboards</h4>
+            <p>Interactive charts and graphs, calendar-based analytics with animations, and exportable reports.</p>
+        </div>
+    </div>
+    <div class="screenshot">Insert Charts and Graphs Screenshot Here</div>
+
+    <div class="divider"></div>
+
+    <!-- Feature 8: Push Notifications -->
+    <h3><span class="section-number">08.</span> Push Notifications (16+ Types)</h3>
+    <p>A robust notification system powered by OneSignal, keeping everyone informed in real-time.</p>
+    <div class="notif-grid">
+        <div class="notif-item"><span class="notif-dot"></span> Event Created</div>
+        <div class="notif-item"><span class="notif-dot"></span> Event Reminder</div>
+        <div class="notif-item"><span class="notif-dot"></span> Event Update</div>
+        <div class="notif-item"><span class="notif-dot"></span> Event Cancelled</div>
+        <div class="notif-item"><span class="notif-dot"></span> Selection Approved</div>
+        <div class="notif-item"><span class="notif-dot"></span> Not Selected</div>
+        <div class="notif-item"><span class="notif-dot"></span> Backup Team</div>
+        <div class="notif-item"><span class="notif-dot"></span> Participation Update</div>
+        <div class="notif-item"><span class="notif-dot"></span> Chat Message</div>
+        <div class="notif-item"><span class="notif-dot"></span> Group Message</div>
+        <div class="notif-item"><span class="notif-dot"></span> Feedback Request</div>
+        <div class="notif-item"><span class="notif-dot"></span> Account Warning</div>
+        <div class="notif-item"><span class="notif-dot"></span> Account Suspended</div>
+        <div class="notif-item"><span class="notif-dot"></span> Permission Granted</div>
+        <div class="notif-item"><span class="notif-dot"></span> Sub-Group Added</div>
+        <div class="notif-item"><span class="notif-dot"></span> Member Applied</div>
+    </div>
+    <h4>Targeting Options</h4>
+    <ul>
+        <li>Send to individual users</li>
+        <li>Send to multiple users at once</li>
+        <li>Send to specific groups/teams</li>
+        <li>Broadcast to all members</li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <!-- Feature 9: Announcements -->
+    <h3><span class="section-number">09.</span> Announcements &amp; Broadcasting</h3>
+    <div class="screenshot-gallery">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7262.PNG?alt=media&token=352779e0-881c-473f-8300-1b7846b24566" alt="Announcements View">
+    <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7263.PNG?alt=media&token=e4fd4bf4-77f0-454e-b575-0a484465f7fb" alt="Announcement Details">
+</div>
+    <ul>
+        <li>Create and broadcast announcements to your entire team or specific groups</li>
+        <li>Multiple types: General, Event, Call to Action, Updates, Warnings, Cancellations</li>
+        <li>Group-targeted distribution (send only to relevant teams)</li>
+        <li>Announcement history and tracking</li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <!-- Feature 10: Data Export -->
+    <h3><span class="section-number">10.</span> Data Export &amp; Reporting</h3>
+    <div class="screenshot">Insert Export Options Screenshot Here</div>
+    <ul>
+        <li><strong>Excel Export</strong> &mdash; Member lists, attendance records, salary sheets, event data</li>
+        <li><strong>PowerPoint Generation</strong> &mdash; Auto-generated presentation decks for client reports</li>
+        <li><strong>Custom Data Management</strong> &mdash; Create tagged records (Schedule, Score, Exception, Asset, Record)</li>
+        <li><strong>Bulk Operations</strong> &mdash; Bulk update member statuses and assignments</li>
+        <li><strong>Import/Export</strong> &mdash; Data management tools for migration and backup</li>
+    </ul>
+</section>
+
+<!-- ==================== UX & DESIGN ==================== -->
+<section>
+    <h2>User Experience &amp; Design</h2>
+    <p class="section-intro">Modern, polished design with attention to every detail.</p>
+
+    <div class="screenshot-gallery">
+        <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7279.PNG?alt=media&token=9a8000a5-a284-4c7e-8085-af2c87d696d5" alt="Home Screen Dark Mode">
+        <img src="https://firebasestorage.googleapis.com/v0/b/ocd-co.firebasestorage.app/o/ocd_screeenshots%2FIMG_7280.PNG?alt=media&token=21442ad8-9a43-4e20-b5fd-2e759fd194c3" alt="Home Screen Light Mode">
+    </div>
+
+    <div class="ux-grid">
+        <div class="ux-item">
+            <div class="ux-icon">🌗</div>
+            <div><strong>Dark &amp; Light Mode</strong><span>Full theme support following system preferences or manual toggle</span></div>
+        </div>
+        <div class="ux-item">
+            <div class="ux-icon">✨</div>
+            <div><strong>Glassmorphic Tab Bar</strong><span>Semi-transparent navigation with blur effects and spring animations</span></div>
+        </div>
+        <div class="ux-item">
+            <div class="ux-icon">🎬</div>
+            <div><strong>Animated Splash Screen</strong><span>Shimmer, diagonal reveal, and circular mask animations</span></div>
+        </div>
+        <div class="ux-item">
+            <div class="ux-icon">🎞</div>
+            <div><strong>Lottie Animations</strong><span>Smooth, lightweight animations for loading states and confirmations</span></div>
+        </div>
+        <div class="ux-item">
+            <div class="ux-icon">📳</div>
+            <div><strong>Haptic Feedback</strong><span>Tactile response on key interactions for a native feel</span></div>
+        </div>
+        <div class="ux-item">
+            <div class="ux-icon">📋</div>
+            <div><strong>Bottom Sheet Modals</strong><span>Smooth, gesture-driven bottom sheets for detailed views</span></div>
+        </div>
+        <div class="ux-item">
+            <div class="ux-icon">🔍</div>
+            <div><strong>Image Zoom Viewer</strong><span>Pinch-to-zoom on photos and documents</span></div>
+        </div>
+        <div class="ux-item">
+            <div class="ux-icon">💀</div>
+            <div><strong>Skeleton Loading</strong><span>Shimmer placeholder screens while content loads</span></div>
+        </div>
+        <div class="ux-item">
+            <div class="ux-icon">📐</div>
+            <div><strong>Adaptive Design</strong><span>Responsive layout that works on all screen sizes</span></div>
+        </div>
+        <div class="ux-item">
+            <div class="ux-icon">📡</div>
+            <div><strong>Network Awareness</strong><span>Graceful handling of offline/online status with visual indicators</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== TECHNICAL SPECS ==================== -->
+<section>
+    <h2>Technical Specifications</h2>
+    <p class="section-intro">Built with the latest, most reliable technologies in the mobile ecosystem.</p>
+    <table>
+        <thead>
+            <tr><th>Component</th><th>Technology</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Framework</td><td>React Native 0.79.5</td></tr>
+            <tr><td>Platform SDK</td><td>Expo SDK 53 (Latest)</td></tr>
+            <tr><td>React Version</td><td>React 19.0.0</td></tr>
+            <tr><td>Architecture</td><td>New Architecture (Enabled)</td></tr>
+            <tr><td>Database</td><td>Firebase Cloud Firestore</td></tr>
+            <tr><td>Authentication</td><td>Firebase Authentication</td></tr>
+            <tr><td>File Storage</td><td>Firebase Cloud Storage</td></tr>
+            <tr><td>Analytics</td><td>Firebase Analytics</td></tr>
+            <tr><td>Performance</td><td>Firebase Performance Monitoring</td></tr>
+            <tr><td>Push Notifications</td><td>OneSignal</td></tr>
+            <tr><td>Navigation</td><td>React Navigation 7.x (Stack, Tabs, Drawer)</td></tr>
+            <tr><td>UI Library</td><td>React Native Paper (Material Design)</td></tr>
+            <tr><td>Charts</td><td>React Native Chart Kit</td></tr>
+            <tr><td>Animations</td><td>Lottie + React Native Reanimated 3.x</td></tr>
+            <tr><td>QR Codes</td><td>react-native-qrcode-svg + Scanner</td></tr>
+            <tr><td>Date Handling</td><td>Day.js</td></tr>
+            <tr><td>Icons</td><td>Expo Vector Icons + Lucide</td></tr>
+            <tr><td>Excel</td><td>ExcelJS + XLSX</td></tr>
+            <tr><td>PowerPoint</td><td>PptxGenJS</td></tr>
+            <tr><td>Image Processing</td><td>Expo Image Manipulator + Compression</td></tr>
+            <tr><td>Audio/Video</td><td>Expo AV</td></tr>
+            <tr><td>Camera</td><td>Expo Camera</td></tr>
+        </tbody>
+    </table>
+    <p><strong>All libraries and dependencies are up-to-date</strong> with the latest stable versions.</p>
+</section>
+
+<!-- ==================== WHAT'S INCLUDED ==================== -->
+<section>
+    <h2>What's Included in the Sale</h2>
+    <p class="section-intro">Everything you need to deploy and run the app under your own brand.</p>
+    <div class="included-section">
+        <div class="included-block">
+            <h4>Source Code</h4>
+            <ul>
+                <li>Complete React Native / Expo project</li>
+                <li>50+ screens, fully implemented</li>
+                <li>All custom components &amp; utilities</li>
+                <li>Clean project structure by feature</li>
+            </ul>
+        </div>
+        <div class="included-block">
+            <h4>Backend &amp; Infrastructure</h4>
+            <ul>
+                <li>Firebase project with all services</li>
+                <li>Cloud Firestore database &amp; schema</li>
+                <li>Firebase Auth &amp; Cloud Storage</li>
+                <li>Analytics &amp; Performance Monitoring</li>
+                <li>OneSignal push notifications</li>
+            </ul>
+        </div>
+        <div class="included-block">
+            <h4>Assets</h4>
+            <ul>
+                <li>50+ custom app icons &amp; images</li>
+                <li>Custom fonts</li>
+                <li>Lottie animation files</li>
+                <li>Adaptive icons for iOS &amp; Android</li>
+            </ul>
+        </div>
+        <div class="included-block">
+            <h4>Build Configuration</h4>
+            <ul>
+                <li>EAS Build profiles (Dev, Preview, Prod)</li>
+                <li>iOS &amp; Android build configs</li>
+                <li>App store metadata &amp; settings</li>
+                <li>Automatic version management</li>
+                <li>Database schema documentation</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== WHY IT'S WORTH IT ==================== -->
+<section>
+    <h2>Why This App is Worth the Investment</h2>
+    <div class="value-grid">
+        <div class="value-card">
+            <h4>Save 6&ndash;12 Months of Development</h4>
+            <p>Building an app of this scope from scratch requires a team of developers working for months. This is ready to deploy now.</p>
+        </div>
+        <div class="value-card">
+            <h4>Save $30,000&ndash;$80,000+ in Costs</h4>
+            <p>At standard development rates, an app with 50+ screens, real-time chat, QR attendance, and analytics would cost significantly more.</p>
+        </div>
+        <div class="value-card">
+            <h4>Production-Tested</h4>
+            <p>This isn't a prototype. It has been used in real-world event operations, handling real teams, real events, and real payments.</p>
+        </div>
+        <div class="value-card">
+            <h4>Fully Customizable</h4>
+            <p>Built with clean, modular architecture. Rebrand it, modify workflows, add features &mdash; the code is yours.</p>
+        </div>
+        <div class="value-card">
+            <h4>Scalable Infrastructure</h4>
+            <p>Firebase's cloud infrastructure scales automatically. Whether you manage 10 or 10,000 members, the backend handles it.</p>
+        </div>
+        <div class="value-card">
+            <h4>Cross-Platform from Day One</h4>
+            <p>One codebase serves both iOS and Android. No need to maintain two apps or hire platform-specific developers.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PERFECT FOR ==================== -->
+<section>
+    <h2>Perfect For</h2>
+    <div class="perfect-for">
+        <span class="tag">Event Management Companies</span>
+        <span class="tag">Staffing Agencies</span>
+        <span class="tag">Conference Organizers</span>
+        <span class="tag">Exhibition Planners</span>
+        <span class="tag">Wedding Planners</span>
+        <span class="tag">Corporate Event Teams</span>
+        <span class="tag">Multi-Event Operations</span>
+    </div>
+</section>
+
+</main>
+
+<!-- ==================== CTA FOOTER ==================== -->
+<footer class="cta-footer">
+    <h2>Ready to Transform Your Event Operations?</h2>
+    <p>A complete, production-ready event management platform with 50+ screens, 13+ event modules, real-time communication, QR attendance, financial tracking, and comprehensive analytics.</p>
+    <div class="cta-highlight">Ready to deploy. Ready to customize. Ready to grow your business.</div>
+    <p style="margin-top: 30px; font-size: 14px; color: rgba(255,255,255,0.5);">For questions, a live demo, or to discuss customization options, please get in touch.</p>
+</footer>
+
+</body>
+</html>
